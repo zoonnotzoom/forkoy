@@ -139,23 +139,58 @@
             }
         }
 
-        function kirimPesan() {
-            let nama = document.getElementById('nama').value;
-            let kategori = document.getElementById('kategori').value;
-            let pesan = document.getElementById('pesan').value;
+        // function kirimPesan() {
+        //     let nama = document.getElementById('nama').value;
+        //     let kategori = document.getElementById('kategori').value;
+        //     let pesan = document.getElementById('pesan').value;
             
-            if (nama && kategori && pesan) {
-                let emailTujuan = "contoh@email.com";
-                let subject = `Pesan Valentine dari ${nama}`;
-                let body = `Nama: ${nama}%0A
-                            Kategori: ${kategori}%0A
-                            Pesan: ${pesan}`;
+        //     if (nama && kategori && pesan) {
+        //         let emailTujuan = "contoh@email.com";
+        //         let subject = `Pesan Valentine dari ${nama}`;
+        //         let body = `Nama: ${nama}%0A
+        //                     Kategori: ${kategori}%0A
+        //                     Pesan: ${pesan}`;
                 
-                window.location.href = `mailto:${emailTujuan}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            } else {
-                alert("Harap isi semua kolom sebelum mengirim pesan!");
-            }
+        //         window.location.href = `mailto:${emailTujuan}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        //     } else {
+        //         alert("Harap isi semua kolom sebelum mengirim pesan!");
+        //     }
+        // }
+        function kirimPesan() {
+        let nama = document.getElementById('nama').value;
+        let kategori = document.getElementById('kategori').value;
+        let pesan = document.getElementById('pesan').value;
+        
+        if (nama && kategori && pesan) {
+            let formData = {
+                nama: nama,
+                kategori: kategori,
+                pesan: pesan
+            };
+
+            fetch("https://formspree.io/f/mldgwvgb", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Pesan berhasil dikirim!");
+                document.getElementById('nama').value = "";
+                document.getElementById('kategori').value = "";
+                document.getElementById('pesan').value = "";
+            })
+            .catch(error => {
+                alert("Gagal mengirim pesan, coba lagi nanti.");
+                console.error("Error:", error);
+            });
+        } else {
+            alert("Harap isi semua kolom sebelum mengirim pesan!");
         }
+        }
+
 
         function toggleMute() {
             let audio = document.getElementById("background-music");
