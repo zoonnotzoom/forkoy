@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Cat Flying Game !</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+        canvas {
+            display: block;
+            background: url('1950.jpg') repeat-x;
+            background-size: cover;
+        }
+        #startBtn, #restartBtn {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #startBtn {
+            top: 60%;
+        }
+        #restartBtn {
+            top: 60%;
+            display: none;
+        }
+        #message {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+        }
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="score">Score: 0</div>
+    <div id="message">Press Space or Arrow Up to Start</div>
+    <button id="startBtn">Start</button>
+    <button id="restartBtn">Restart</button>
+    <audio id="scoreSound" src="sfx.wav"></audio>
+    <audio id="gameOverSound" src="gameover.wav"></audio>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const startBtn = document.getElementById("startBtn");
+        const restartBtn = document.getElementById("restartBtn");
+        const message = document.getElementById("message");
+        const scoreDisplay = document.getElementById("score");
+        const scoreSound = document.getElementById("scoreSound");
+        const gameOverSound = document.getElementById("gameOverSound");
+        
+        function playSound(src) {
+            let sound = new Audio(src);
+            sound.play();
+        }
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        let bird, pipes, frame, gameOver, gameStarted = false, score, speedMultiplier;
+
+        function initGame() {
+            bird = { x: 50, y: canvas.height / 2, radius: 15, gravity: 0.8, lift: -14, velocity: 0 };
+            pipes = [];
+            frame = 0;
+            score = 0;
+            speedMultiplier = 1;
+            gameOver = false;
+            gameStarted = false;
+            restartBtn.style.display = "none";
+            startBtn.style.display = "block";
+            message.style.display = "block";
+            message.innerText = "Press Space or Arrow Up to Start The Game & try to reach 75 score !";
+            scoreDisplay.innerText = "Score: 0";
+        }
+
+        function startGame() {
+            if (!gameStarted) {
+                gameStarted = true;
+                startBtn.style.display = "none";
+                message.style.display = "none";
+                loop();
+            }
+        }
+
+        const catImg = new Image();
+        catImg.src = "cat.png";
+
+        function drawBird() {
+            ctx.drawImage(catImg, bird.x - bird.radius, bird.y - bird.radius, bird.radius * 2, bird.radius * 2);
+        }
+
+        // function drawBird() {
+        //     ctx.fillStyle = "yellow";
+        //     ctx.beginPath();
+        //     ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+        //     ctx.fill();
+        // }
+        
+        function updateBird() {
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+            
+            if (bird.y + bird.radius >= canvas.height || bird.y - bird.radius <= 0) {
+                endGame();
+            }
+        }
+        
+        function drawPipes() {
+            ctx.fillStyle = "green";
+            pipes.forEach(pipe => {
+                ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
+                ctx.fillRect(pipe.x, pipe.bottom, pipe.width, canvas.height - pipe.bottom);
+            });
+        }
+        
+        function updatePipes() {
+            if (frame % 120 === 0) {
+                let gap = 380;
+                let topHeight = Math.random() * (canvas.height / 3) + 50;
+                let width = (score >= 49) ? canvas.width : 90;
+                pipes.push({ x: canvas.width, width: width, top: topHeight, bottom: topHeight + gap, passed: false });
+            }
+            pipes.forEach(pipe => {
+                pipe.x -= 2 * speedMultiplier;
+                if (!pipe.passed && pipe.x + pipe.width < bird.x) {
+                    pipe.passed = true;
+                    score++;
+                    scoreDisplay.innerText = "Score: " + score;
+                    playSound("sfx.wav");
+                    
+                    if (score % 2 === 0) {
+                        speedMultiplier += 0.15;
+                    }
+                }
+                if (bird.x + bird.radius > pipe.x && bird.x - bird.radius < pipe.x + pipe.width && (bird.y - bird.radius < pipe.top || bird.y + bird.radius > pipe.bottom)) {
+                    endGame();
+                }
+            });
+            pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
+        }
+        
+        function endGame() {
+            gameOver = true;
+            playSound("gameover.wav");
+            message.innerText = "Game Over, press 'R' to restart the game";
+            message.style.display = "block";
+            restartBtn.style.display = "block";
+        }
+        
+        function loop() {
+            if (!gameOver) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawBird();
+                drawPipes();
+                updateBird();
+                updatePipes();
+                frame++;
+                requestAnimationFrame(loop);
+            }
+        }
+        
+        document.addEventListener("keydown", (event) => {
+            if (!gameStarted && (event.key === " " || event.key === "ArrowUp")) {
+                startGame();
+            } else if (!gameOver && (event.key === " " || event.key === "ArrowUp")) {
+                bird.velocity = bird.lift;
+                playSound("jump.wav");
+            } else if (gameOver && event.key.toLowerCase() === "r") {
+                initGame();
+            }
+        });
+
+        startBtn.addEventListener("click", startGame);
+        restartBtn.addEventListener("click", initGame);
+        
+        initGame();
+    </script>
+</body>
+</html>

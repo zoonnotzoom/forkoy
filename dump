@@ -1,0 +1,3 @@
+<audio id="scoreSound" src="sfx.wav"></audio>
+    <audio id="jumpSound" src="jump.wav"></audio>
+    <audio id="gameOverSound" src="gameover.wav"></audio>

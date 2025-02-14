@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffebf0;
+            text-align: center;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .valentine-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .card-ucapan, .card-pesan, .form-pesan {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffccd5;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .show-card {
+            display: block !important;
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+        #mute-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-music" autoplay loop>
+        <source src="./cloudkoh-flower.mp3" type="audio/mpeg">
+    </audio>    
+
+    <button id="mute-btn" onclick="toggleMute()">🔊</button>
+
+    <div class="container">
+        <h1 class="text-danger">Happy Valentine's Day!</h1>
+        <img src="1.jpeg" class="valentine-img my-3" alt="Valentine Image">
+        
+        <div class="mt-4" id="password-section">
+            <h2>Masukkan Password</h2>
+            <input type="password" id="password" class="form-control w-50 mx-auto my-2" placeholder="Masukkan password">
+            <button class="btn btn-danger" onclick="cekPassword()">Submit</button>
+            <div id="notif" class="alert mt-3 d-none" role="alert"></div>
+        </div>
+        
+        <div id="card-ucapan" class="card-ucapan">
+            <h3 class="text-danger">Happy Valentine's Day! ❤️</h3>
+            <p class="fw-bold">Welcome to Last page, disini aku mau sampein isi hati aja sih wkwk</p>
+            <p class="fw-bold">Disclaimer : disini aku ga marah atau yang gimana, disini aku full calm dan sangat tenang wkwk</p>
+        </div>
+        
+        <div id="card-pesan" class="card-pesan text-start">
+            <h3 class="text-danger">First, it's for you</h3>
+            <p>Gimana kabarmu ?, aku harap baik-baik aja, selama ini kita banyak berubah sejak awal kenal, dari mulai chat tele, ketemu pertama kalinya, bahkan sampe sekarang yang udah jarang komunikasi wkwk. Kalau dipikir-pikir semua udah berubah 180 derajat ga si ?, mungkin dirimu bosen atau akunya juga ga jago respon, jago nyari topik dan lebih sering buntu, dan lainnya. Tapi, apapun itu rasa sayangku ga berubah kok mau gimanapun, pokoknya i hope everything is okay, and always feel free to tell me anything. </p>
+            <p>Oh ya, skripsimu gimana ? wkwkw, kalo lagi stuck istirahat dulu aja, healing, self-reward, atau ngelakuin apapun itu yang bikin happy tapi jangan kelamaan nanti keasikan malah jadi keterusan terus lupa wkwkw. Dan kalo butuh bantu-bantu apapun itu kabarin aja, sebisa mungkin aku bantu kok. Okenggg ! </p>
+            <h3 class="text-danger">Second, it's about us</h3>
+            <p>Soal chat yang terakhir itu, aku ga tau dirimu marah, sebel atau yang lain tapi aku harap everything is okay ya, aku awalnya cuma mancing barangkali kamu mau vidcall atau call gitu, ngarep ketemuan juga si hehe sorry, tapi gapapa kok, sering kumat emang kalo lagi kangen berat T_T and i just wanna tell you about i told you before, soal janji aku yang pas aku kasih ring ke kamu tahun lalu, soal itu lupain aja ga usah dipikirin banget, kalau emang ada yang lebih baik dateng ke kamu terima aja gak masalah, aku baru sadar sekarang kalo maksa ke aku terus kasian dirimu juga takutnya malah kelewatan atau mungkin emang udah ada yang kelewat ? aku minta maaf soal itu, dan kalau emang udah penat atau sekiranya ga nyaman dsb, apapun itu jangan pernah ragu omongin langsung aja kamu maunya gimana just to be honest aku lebih suka yang kaya gitu, terbuka dan to the point.</p>
+            <p>Aku juga pengen kasih tau, kalo aku ga suka kamu suruh cari cewe lain, sama yang disana dululah, yada yada dan sejenisnya. Aku bukan orang yang kaya gitu, aku kalo udah 1 ya 1, mau kamu mempermasalahkan atau ga, aku ga bakal lakuin. Alasan pertamanya kaya aku bilang sebelumnya aku bukan tipe orang yang kaya gitu bisa sana sini alias sasimo dan juga aku udah komitmen, aku udah janji, dan kemarin tu aku cuma kangen ga lebih, kamu mungkin bisa minta aku yang lain harus gimana dan maumu gimana tapi untuk nyari yang lain disaat aku udah komit, sepertinya ga dulu.</p>
+            <h3 class="text-danger">Third, i don't know what i want to write to this header</h3>
+            <p>Aku ga tau mau tulis apa di bagian ini wkwkw, mungkin lebih ke cerita lagi, tmi, dsb. So fyi aku udah stop from smoke bener-bener stop total termasuk vape, ini udah hampir masuk bulan ke 2, berat ? SANGAT WKWK, susah banget nahan godaan pengen lagi pas minggu pertama sama kedua dan selanjutnya setelah itu sering banget swing mood (mungkin termasuk yang aku muring-muring soal kangen itu efek sampingnya wkwk), aku udah coba atasin pake vitamin complex kaya biasanya juga ga works jadi aku atasin dengan sering-sering main game sama pake makanan, minuman alhasil dompetku sering boncos buat beli game sama jadi gemuk lagi, bener-bener gemuk sekarang T_T kaya aku pas jaman covid, bahkan celana yang biasa aku pake sehari-hari pas aku kerja dijogja udah ga ada yang muat, yang muat paling celana jersey kolor itu juga ga semuanya T_T, estimasi mungkin 70++ kg ini bb aku wkwkw. Aku ada rencana diet sih, mungkin mulainya bulan depan sekalian puasa terus lanjut diet rutin, sambil diet mungkin kalo ada rejeki lebih mau balik ke gym lagi, kadang kangen juga ama temen gym dulu wkwkw. Gini-gini aku dulu pernah ngegym tau dulu pas kita lost contact, tapi ga lama cuma itungan bulan ga lebih dari setengah tahun wkwkw.</p>
+            <p>Tapi ya jujurly(anjay bahasa jaksel), aku kangen banget tauuu, aku sering banget ngeliatin foto ini</p>
+            <img src="3.jpeg" class="valentine-img my-3" alt="">
+            <p>Suka aja gitu, pengen banget suatu saat ringnya bukan beda-beda lagi tapi couple dan lebih bagus, sama pastinya aku makenya bukan dikelingking kanan lagi, hehehe</p>
+            <p>Aku juga pengen banget kita bisa makan bareng lagiii, aku kadang masih suka keinget-inget kita makan di depot makan itu pas pagi, aku pesen ayam kungpao kamu pesen kwetiau ga pake sayur. Sepertinya juga pas itu aku lebih menikmati aku makannya sama siapa ketimbang rasa makanannya, walaupun makanannya enak wkwkw. Tapi ya, kayanya siapapun pasti ngerasain yang kaya aku rasain deh, lebih nikmatin makannya sama siapa kalo makannya bareng orang cantik, lucu, pinter, segalanya semuanya diborong kamu. Walaupun pas itu dirimu kayanya bete banget karna ga dijemput ? wkwkw, maaf, pas itu aku cape banget bawa tas berat, jalan kaki juga jadi agak sedikit mager pengen istirahatin kaki hehe. Tapi next time aku janji ga kaya gitu lagi, besok-besok aku trabas mau secape apapun hehehe.</p>
+            <h3 class="text-danger">Last</h3>
+            <p>Mungkin itu aja sih yang pengen aku omongin, dipaling bawah nanti ada form, disitu kamu bisa isi kalau mau, kamu bisa respon, jawab, atau sampein ke aku apapun itu bebas aja, kalau ga ngisi juga gapapa. Nanti yang kamu isi masuk ke email aku dan pasti langsung aku baca secepatnya, dan terakhir aku ga masalah kita jarang komunikasi kaya gini pun walaupun sebenernya pengennya sih sering-sering hehe, tapi ntar jadi malah kangen terus ga ketampung malah kacau juga wkwkw. Semangat juga buat skripsinya, aku selalu doa dan berharap bisa lancar dan minim halangan, apalagi halangannya dari dosbing, ngeselin emang si kalo halangannya itu wkwk.</p>
+            <p>Oiya, sekarang juga udah mulai masuk nisfu sya'ban, jangan lupa minta sesuatu yang baik-baik, akupun juga begitu hehehe.</p>
+            <h6 class="fw-bold">Remember what i wrote on Lotso Doll i gave to you ?, I will always love you ❤️ </h6>
+            <p>hehe, byebye.</p>
+            <div class="mt-3">
+                <a href="game.html" class="btn btn-primary">Back to Mini Game Page</a>
+                <a href="story.html" class="btn btn-secondary">Back to Previous Page</a>
+            </div>
+        </div>
+
+        <form id="form-pesan" class="form-pesan">
+            <h3 class="text-danger">Send Me Something KOYYY</h3>
+            <input type="text" id="nama" class="form-control my-2" placeholder="Dari siapa ini ? pasti orangnya cantik" required>
+            <select id="kategori" class="form-control my-2" required>
+                <!-- <option value="Ucapan Valentine">Ucapan Valentine</option> -->
+                <option value="Pesan Spesial">Pesan Spesial Untuk Ku</option>
+                <!-- <option value="Cinta & Kasih Sayang">Cinta & Kasih Sayang</option> -->
+            </select>
+            <textarea id="pesan" class="form-control my-2" placeholder="Write something here..." required></textarea>
+            <button type="button" class="btn btn-danger" onclick="kirimPesan()">Kirim</button>
+        </form>
+    </div>
+
+    <script>
+            document.addEventListener("click", function() {
+                let audio = document.getElementById("background-music");
+                if (audio.paused) {
+                    audio.play().catch(error => console.log("Gagal memutar audio:", error));
+                }
+            }, { once: true });
+
+        function cekPassword() {
+            let passwordInput = document.getElementById('password').value;
+            let notif = document.getElementById('notif');
+            let correctPassword = atob("VVJtM3M1YWcz");
+            let passwordSection = document.getElementById('password-section');
+            let cardUcapan = document.getElementById('card-ucapan');
+            let cardPesan = document.getElementById('card-pesan');
+            let formPesan = document.getElementById('form-pesan');
+            
+            if (passwordInput === correctPassword) {
+                passwordSection.style.display = "none";
+                setTimeout(() => { cardUcapan.classList.add('show-card'); }, 300);
+                setTimeout(() => { cardPesan.classList.add('show-card'); }, 800);
+                setTimeout(() => { formPesan.classList.add('show-card'); }, 1300);
+            } else {
+                notif.classList.remove('d-none');
+                notif.classList.remove('alert-success');
+                notif.classList.add('alert-danger');
+                notif.textContent = "Password salah! Silakan coba lagi.";
+                document.getElementById('password').value = "";
+            }
+        }
+
+        function kirimPesan() {
+            let nama = document.getElementById('nama').value;
+            let kategori = document.getElementById('kategori').value;
+            let pesan = document.getElementById('pesan').value;
+            
+            if (nama && kategori && pesan) {
+                let emailTujuan = "contoh@email.com";
+                let subject = `Pesan Valentine dari ${nama}`;
+                let body = `Nama: ${nama}%0A
+                            Kategori: ${kategori}%0A
+                            Pesan: ${pesan}`;
+                
+                window.location.href = `mailto:${emailTujuan}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            } else {
+                alert("Harap isi semua kolom sebelum mengirim pesan!");
+            }
+        }
+
+        function toggleMute() {
+            let audio = document.getElementById("background-music");
+            let muteBtn = document.getElementById("mute-btn");
+
+            if (audio.muted) {
+                audio.muted = false;
+                muteBtn.innerHTML = "🔊"; 
+            } else {
+                audio.muted = true;
+                muteBtn.innerHTML = "🔇"; 
+            }
+        }
+    </script>
+</body>
+</html>
